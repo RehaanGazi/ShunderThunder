@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>A Little Something For You</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main id="app">
+
+        <!-- PAGE 1 -->
+        <section id="page-name" class="page active">
+
+            <h1>Enter your name</h1>
+
+            <input
+                type="text"
+                id="nameInput"
+                placeholder="Your name..."
+                autocomplete="off"
+            >
+
+            <button onclick="checkName()">
+                Continue
+            </button>
+
+            <p id="nameMessage"></p>
+
+        </section>
+
+
+        <!-- PAGE 2 -->
+        <section id="page-my-name" class="page">
+
+            <h1>Okay...</h1>
+
+            <p>
+                What's my name?
+            </p>
+
+            <input
+                type="text"
+                id="myNameInput"
+                placeholder="My name..."
+                autocomplete="off"
+            >
+
+            <button onclick="checkMyName()">
+                Continue
+            </button>
+
+            <p id="myNameMessage"></p>
+
+        </section>
+
+
+        <!-- INTRO -->
+        <section id="page-intro" class="page">
+
+            <h1 id="introMessage"></h1>
+
+            <button onclick="startQuestions()">
+                yessss
+            </button>
+
+        </section>
+
+
+        <!-- QUESTION 1 -->
+        <section id="page-question-1" class="page">
+
+            <h1>Question 1</h1>
+
+            <p>
+                Do you love me Kadru? :3
+            </p>
+
+            <div class="options">
+
+                <button onclick="answerQuestion1('Yes')">
+                    Yes
+                </button>
+
+                <button onclick="answerQuestion1('No')">
+                    No
+                </button>
+
+            </div>
+
+            <p id="question1Message"></p>
+
+            <button
+                id="question1Continue"
+                onclick="goToQuestion2()"
+                style="display: none;"
+            >
+                Continue
+            </button>
+
+        </section>
+
+
+        <!-- QUESTION 2 -->
+        <section id="page-question-2" class="page">
+
+            <h1>Question 2</h1>
+
+            <p>
+                If you could have any one of these, which one will you pick?
+            </p>
+
+            <div class="options">
+
+                <button onclick="answerQuestion2('All of the Pusheen merch')">
+                    All of the Pusheen merch
+                </button>
+
+                <button onclick="answerQuestion2('As many kittens as you can have')">
+                    As many kittens as you can have
+                </button>
+
+                <button onclick="answerQuestion2('Become a kitten yourself')">
+                    Become a kitten yourself
+                </button>
+
+            </div>
+
+            <p id="question2Message"></p>
+
+            <button
+                id="question2Continue"
+                onclick="goToQuestion3()"
+                style="display: none;"
+            >
+                Continue
+            </button>
+
+        </section>
+
+
+        <!-- QUESTION 3 -->
+        <section id="page-question-3" class="page">
+
+            <h1>Question 3</h1>
+
+            <p>
+                Will you be my girlfriend... :3
+            </p>
+
+            <div id="finalOptions">
+
+                <button onclick="answerQuestion3('Yes')">
+                    Yes
+                </button>
+
+                <button
+                    id="noButton"
+                    onclick="handleNo()"
+                >
+                    No
+                </button>
+
+            </div>
+
+            <p id="question3Message"></p>
+
+        </section>
+
+
+        <!-- FINAL YES PAGE -->
+        <section id="page-final" class="page">
+
+            <h1 id="finalMessage"></h1>
+
+        </section>
+
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
