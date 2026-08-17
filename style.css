@@ -1,31 +1,148 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+* {
+    box-sizing: border-box;
 }
 
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+
+    overflow-x: hidden;
+
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100dvh;
+}
+
+/* Main mobile application */
+#app {
+    width: 100%;
+    min-height: 100dvh;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+/* Every page */
 .page {
     display: none;
-    min-height: 100vh;
+
+    width: 100%;
+    min-height: 100dvh;
+
+    padding: 24px;
 
     justify-content: center;
     align-items: center;
     flex-direction: column;
 
     text-align: center;
+
+    overflow: hidden;
 }
 
 .page.active {
     display: flex;
 }
 
-input {
-    padding: 10px;
-    margin: 10px;
+/* Text */
+h1 {
+    max-width: 90%;
+
+    font-size: 2rem;
+    margin-bottom: 20px;
 }
 
+p {
+    max-width: 90%;
+
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+/* Inputs */
+input {
+    width: min(85%, 350px);
+
+    padding: 14px 16px;
+
+    margin: 12px 0;
+
+    font-size: 1rem;
+
+    border-radius: 12px;
+    border: 2px solid #333;
+
+    outline: none;
+}
+
+input:focus {
+    border-color: #777;
+}
+
+/* Buttons */
 button {
-    padding: 10px 20px;
-    margin: 5px;
+    min-height: 48px;
+
+    padding: 12px 22px;
+
+    margin: 6px;
+
+    font-size: 1rem;
+
+    border-radius: 12px;
+    border: none;
+
     cursor: pointer;
+
+    touch-action: manipulation;
+}
+
+/* Question answer buttons */
+.options {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.options button {
+    width: min(90%, 340px);
+}
+
+/*
+    The final No button will eventually
+    become position: fixed when it starts
+    teleporting.
+*/
+
+#noButton {
+    position: relative;
+}
+
+/* Small phone screens */
+@media (max-width: 380px) {
+
+    .page {
+        padding: 18px;
+    }
+
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    button {
+        font-size: 0.95rem;
+    }
 }
