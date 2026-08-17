@@ -1,3 +1,7 @@
+/* ==========================================
+   GLOBAL
+   ========================================== */
+
 * {
     box-sizing: border-box;
 }
@@ -6,39 +10,192 @@ html,
 body {
     margin: 0;
     padding: 0;
+
     width: 100%;
     min-height: 100%;
 
-    overflow-x: hidden;
+    overflow: hidden;
 
-    font-family: Arial, sans-serif;
+    font-family:
+        "Trebuchet MS",
+        Arial,
+        sans-serif;
 }
 
 body {
-    min-height: 100dvh;
+    background: #ffeeed;
+
+    color: #4a4141;
 }
 
-/* Main mobile application */
+
+/* ==========================================
+   MAIN APP
+   ========================================== */
+
 #app {
+    position: relative;
+
     width: 100%;
-    min-height: 100dvh;
+    height: 100dvh;
 
     overflow: hidden;
 
-    position: relative;
+    background: #ffeeed;
 }
 
-/* Every page */
+
+/* ==========================================
+   PUSHEEN AT THE TOP
+   ========================================== */
+
+#topPusheen {
+    position: fixed;
+
+    /*
+        Start above the screen.
+    */
+
+    top: -220px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 10;
+
+    /*
+        Animation will be added by JavaScript
+        after the page loads.
+    */
+}
+
+#topPusheenImage {
+    display: block;
+
+    width: 180px;
+    height: auto;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+
+/* ==========================================
+   TOP PUSHEEN ENTER ANIMATION
+   ========================================== */
+
+#topPusheen.entering {
+    animation:
+        pusheenDrop 2s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        forwards;
+}
+
+@keyframes pusheenDrop {
+
+    from {
+        top: -220px;
+    }
+
+    to {
+        top: 20px;
+    }
+
+}
+
+
+/* ==========================================
+   DECORATIVE KITTENS
+   ========================================== */
+
+.decorative-kitten {
+
+    position: fixed;
+
+    width: 65px;
+    height: 65px;
+
+    object-fit: cover;
+
+    z-index: 5;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    border-radius: 50%;
+
+    /*
+        The little wobble animation.
+    */
+
+    animation:
+        kittenWobble 2.5s
+        ease-in-out
+        infinite;
+}
+
+
+/* First kitten */
+
+.kitten-one {
+    left: 10px;
+    bottom: 25px;
+
+    animation-delay: 0s;
+}
+
+
+/* Second kitten */
+
+.kitten-two {
+    right: 10px;
+    bottom: 80px;
+
+    animation-delay: 1.2s;
+}
+
+
+/* ==========================================
+   KITTEN WOBBLE
+   ========================================== */
+
+@keyframes kittenWobble {
+
+    0% {
+        transform: rotate(-4deg);
+    }
+
+    50% {
+        transform: rotate(4deg);
+    }
+
+    100% {
+        transform: rotate(-4deg);
+    }
+
+}
+
+
+/* ==========================================
+   PAGES
+   ========================================== */
+
 .page {
+
     display: none;
 
-    width: 100%;
-    min-height: 100dvh;
+    position: relative;
 
-    padding: 24px;
+    width: 100%;
+    height: 100dvh;
+
+    padding: 180px 24px 100px;
 
     justify-content: center;
     align-items: center;
+
     flex-direction: column;
 
     text-align: center;
@@ -46,103 +203,257 @@ body {
     overflow: hidden;
 }
 
+
 .page.active {
     display: flex;
 }
 
-/* Text */
-h1 {
-    max-width: 90%;
 
-    font-size: 2rem;
-    margin-bottom: 20px;
+/* ==========================================
+   CONTENT CARD
+   ========================================== */
+
+.content-card {
+
+    width: min(92%, 380px);
+
+    padding: 28px 20px;
+
+    border-radius: 28px;
+
+    background: rgba(255, 255, 255, 0.65);
+
+    box-shadow:
+        0 8px 30px rgba(100, 70, 70, 0.08);
+
+    backdrop-filter: blur(4px);
 }
 
-p {
-    max-width: 90%;
 
-    font-size: 1.1rem;
+/* ==========================================
+   TEXT
+   ========================================== */
+
+h1 {
+
+    margin: 0 0 20px;
+
+    font-size: 1.8rem;
+
+    line-height: 1.25;
+
+    color: #4a4141;
+}
+
+
+p {
+
+    margin: 12px auto;
+
+    max-width: 320px;
+
+    font-size: 1.05rem;
+
     line-height: 1.5;
 }
 
-/* Inputs */
+
+.question-number {
+
+    display: block;
+
+    margin-bottom: 12px;
+
+    font-size: 0.85rem;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    opacity: 0.55;
+}
+
+
+/* ==========================================
+   INPUT
+   ========================================== */
+
 input {
-    width: min(85%, 350px);
+
+    width: 100%;
 
     padding: 14px 16px;
 
-    margin: 12px 0;
+    margin: 8px 0 14px;
+
+    border: 2px solid #ead4d2;
+
+    border-radius: 16px;
+
+    background: #fffafa;
+
+    color: #4a4141;
 
     font-size: 1rem;
 
-    border-radius: 12px;
-    border: 2px solid #333;
-
     outline: none;
+
+    text-align: center;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
 }
+
 
 input:focus {
-    border-color: #777;
+
+    border-color: #d9aaa8;
+
+    box-shadow:
+        0 0 0 4px rgba(217, 170, 168, 0.15);
 }
 
-/* Buttons */
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+
 button {
-    min-height: 48px;
+
+    min-height: 50px;
 
     padding: 12px 22px;
 
     margin: 6px;
 
+    border: none;
+
+    border-radius: 16px;
+
+    background: #ffffff;
+
+    color: #4a4141;
+
+    font-family: inherit;
+
     font-size: 1rem;
 
-    border-radius: 12px;
-    border: none;
+    font-weight: bold;
+
+    box-shadow:
+        0 5px 15px rgba(100, 70, 70, 0.10);
 
     cursor: pointer;
 
     touch-action: manipulation;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
-/* Question answer buttons */
+
+button:active {
+
+    transform: scale(0.95);
+
+    box-shadow:
+        0 2px 8px rgba(100, 70, 70, 0.10);
+}
+
+
+/* ==========================================
+   QUESTION OPTIONS
+   ========================================== */
+
 .options {
+
     width: 100%;
 
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
 }
 
+
 .options button {
-    width: min(90%, 340px);
+
+    width: 100%;
+
+    max-width: 320px;
 }
 
-/*
-    The final No button will eventually
-    become position: fixed when it starts
-    teleporting.
-*/
 
-#noButton {
-    position: relative;
+/* ==========================================
+   CONTINUE BUTTON
+   ========================================== */
+
+.continue-button {
+
+    margin-top: 18px;
+
 }
 
-/* Small phone screens */
-@media (max-width: 380px) {
+
+/* ==========================================
+   MOBILE SMALL-SCREEN SUPPORT
+   ========================================== */
+
+@media (max-height: 650px) {
+
+    #topPusheenImage {
+        width: 140px;
+    }
+
+    @keyframes pusheenDrop {
+
+        from {
+            top: -180px;
+        }
+
+        to {
+            top: 5px;
+        }
+
+    }
 
     .page {
-        padding: 18px;
+        padding-top: 150px;
+        padding-bottom: 70px;
+    }
+
+    .content-card {
+        padding: 20px 16px;
     }
 
     h1 {
-        font-size: 1.7rem;
+        font-size: 1.55rem;
     }
 
-    p {
-        font-size: 1rem;
+}
+
+
+/* ==========================================
+   SMALL WIDTH PHONES
+   ========================================== */
+
+@media (max-width: 360px) {
+
+    .page {
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
-    button {
-        font-size: 0.95rem;
+    #topPusheenImage {
+        width: 145px;
     }
+
+    .decorative-kitten {
+        width: 52px;
+        height: 52px;
+    }
+
 }
