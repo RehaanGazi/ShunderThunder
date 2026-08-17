@@ -217,54 +217,107 @@ function handleNo() {
     const noButton =
         document.getElementById("noButton");
 
-    const screenWidth =
-        window.innerWidth;
 
-    const screenHeight =
-        window.innerHeight;
+    // ==========================================
+    // FIRST 5 CLICKS
+    // TELEPORT
+    // ==========================================
 
-    // First 5 clicks:
-    // Teleport somewhere random.
     if (answers.noButtonClicks <= 5) {
 
-        const buttonWidth = noButton.offsetWidth;
-        const buttonHeight = noButton.offsetHeight;
-
-        const randomX =
-            Math.random() *
-            (screenWidth - buttonWidth - 20) + 10;
-
-        const randomY =
-            Math.random() *
-            (screenHeight - buttonHeight - 20) + 10;
+        /*
+            Make the button fixed to the phone viewport.
+            This means it can move anywhere on screen
+            without affecting the rest of the page.
+        */
 
         noButton.style.position = "fixed";
 
+        const buttonWidth =
+            noButton.offsetWidth;
+
+        const buttonHeight =
+            noButton.offsetHeight;
+
+
+        /*
+            Keep a little padding around the edges
+            so the button never gets half-cut off.
+        */
+
+        const padding = 20;
+
+
+        const maxX =
+            window.innerWidth -
+            buttonWidth -
+            padding;
+
+        const maxY =
+            window.innerHeight -
+            buttonHeight -
+            padding;
+
+
+        const randomX =
+            Math.random() *
+            Math.max(maxX - padding, 0) +
+            padding;
+
+        const randomY =
+            Math.random() *
+            Math.max(maxY - padding, 0) +
+            padding;
+
+
         noButton.style.left =
-            randomX + "px";
+            `${randomX}px`;
 
         noButton.style.top =
-            randomY + "px";
+            `${randomY}px`;
     }
 
-    // Sixth click:
-    // VANISH.
+
+    // ==========================================
+    // SIXTH CLICK
+    // PLAY SOUND → WAIT 1 SECOND → VANISH
+    // ==========================================
+
     else if (answers.noButtonClicks === 6) {
 
         const vanishSound =
             new Audio("assets/sounds/vanish.ogg");
 
-        vanishSound.play();
 
-        noButton.style.display = "none";
+        // Play the sound immediately
+        vanishSound.play().catch(error => {
+            console.log("Could not play vanish sound:", error);
+        });
 
-        document.getElementById(
-            "question3Message"
-        ).textContent =
-            "Interesting. I seem to have misplaced the No button.";
 
-        // Still save the answer attempt
+        /*
+            Don't disappear immediately.
+
+            She gets 1 full second of:
+                "Oh god what is happening"
+            
+            before the button actually vanishes.
+        */
+
+        setTimeout(() => {
+
+            noButton.style.display = "none";
+
+            document.getElementById(
+                "question3Message"
+            ).textContent =
+                "Interesting. I seem to have misplaced the No button.";
+
+        }, 1000);
+
+
         answers.question3 = "No";
+
         saveAnswers();
     }
 }
