@@ -24,7 +24,26 @@ const answers = {
     noButtonClicks: 0,
 
     completed: false
+
 };
+
+
+// ==========================================
+// PUSHEEN
+// ==========================================
+
+const pusheenFrames = {
+
+    open:
+        "assets/pusheen-top-1.png",
+
+    closed:
+        "assets/pusheen-top-2.png"
+
+};
+
+
+let blinkTimer = null;
 
 
 // ==========================================
@@ -36,117 +55,252 @@ function showPage(pageId) {
     const pages =
         document.querySelectorAll(".page");
 
+
     pages.forEach(page => {
 
         page.classList.remove("active");
 
     });
 
-    document
-        .getElementById(pageId)
-        .classList.add("active");
+
+    const newPage =
+        document.getElementById(pageId);
+
+
+    newPage.classList.add("active");
+
+
+    /*
+        Wait for the browser to render
+        the new card before adding Pusheen.
+    */
+
+    requestAnimationFrame(() => {
+
+        setupPusheen();
+
+    });
+
 }
 
 
 // ==========================================
-// PUSHEEN ENTRANCE
+// CREATE PUSHEEN
 // ==========================================
 
-window.addEventListener("load", () => {
+function setupPusheen() {
+
+    const activePage =
+        document.querySelector(
+            ".page.active"
+        );
+
+
+    if (!activePage) {
+        return;
+    }
+
+
+    const card =
+        activePage.querySelector(
+            ".content-card"
+        );
+
+
+    if (!card) {
+        return;
+    }
+
+
+    /*
+        Remove Pusheen from any previous page.
+    */
+
+    document
+        .querySelectorAll(".card-pusheen")
+        .forEach(pusheen => {
+
+            pusheen.remove();
+
+        });
+
+
+    /*
+        Create Pusheen container.
+    */
 
     const pusheen =
-        document.getElementById("topPusheen");
+        document.createElement("div");
 
-    /*
-        Give the browser a tiny moment to load
-        everything before starting the entrance.
-    */
 
-    setTimeout(() => {
-
-        pusheen.classList.add("entering");
-
-    }, 300);
+    pusheen.className =
+        "card-pusheen";
 
 
     /*
-        Wait until the entrance animation is
-        finished before starting the blinking.
-        
-        Animation:
-        2 seconds
-
-        Then blink every 5 seconds.
+        Create image.
     */
 
-    setTimeout(() => {
-
-        startPusheenBlinking();
-
-    }, 2300);
-
-});
+    const image =
+        document.createElement("img");
 
 
-// ==========================================
-// PUSHEEN BLINKING
-// ==========================================
-
-function startPusheenBlinking() {
-
-    const pusheenImage =
-        document.getElementById("topPusheenImage");
+    image.src =
+        pusheenFrames.open;
 
 
-    setInterval(() => {
-
-        /*
-            Eyes closed
-        */
-
-        pusheenImage.src =
-            "assets/pusheen-top-2.png";
+    image.alt =
+        "Pusheen";
 
 
-        /*
-            Keep the eyes closed briefly,
-            then return to open eyes.
-        */
+    pusheen.appendChild(image);
 
-        setTimeout(() => {
 
-            pusheenImage.src =
-                "assets/pusheen-top-1.png";
+    /*
+        Put Pusheen inside the card.
+    */
 
-        }, 150);
+    card.appendChild(pusheen);
 
-    }, 5000);
+
+    /*
+        Start the pop-up animation
+        on the next frame.
+    */
+
+    requestAnimationFrame(() => {
+
+        pusheen.classList.add(
+            "popped-up"
+        );
+
+    });
+
+
+    /*
+        Restart the single blink timer.
+    */
+
+    startBlinkTimer(image);
+
 }
+
+
+// ==========================================
+// BLINK TIMER
+// ==========================================
+
+function startBlinkTimer(image) {
+
+    /*
+        Clear previous timer.
+    */
+
+    if (blinkTimer) {
+
+        clearInterval(
+            blinkTimer
+        );
+
+    }
+
+
+    /*
+        Blink every 5 seconds.
+    */
+
+    blinkTimer =
+        setInterval(() => {
+
+            /*
+                Eyes closed.
+            */
+
+            image.src =
+                pusheenFrames.closed;
+
+
+            /*
+                Eyes reopen after
+                150 milliseconds.
+            */
+
+            setTimeout(() => {
+
+                /*
+                    Make sure the image
+                    still exists.
+                */
+
+                if (
+                    document.body.contains(image)
+                ) {
+
+                    image.src =
+                        pusheenFrames.open;
+
+                }
+
+            }, 150);
+
+
+        }, 5000);
+
+}
+
+
+// ==========================================
+// START WEBSITE
+// ==========================================
+
+window.addEventListener(
+    "load",
+    () => {
+
+        setupPusheen();
+
+    }
+);
 
 
 // ==========================================
 // PAGE 1
-// ENTER YOUR NAME
+// ENTER NAME
 // ==========================================
 
 function checkName() {
 
     const input =
-        document.getElementById("nameInput");
+        document.getElementById(
+            "nameInput"
+        );
+
 
     const message =
-        document.getElementById("nameMessage");
+        document.getElementById(
+            "nameMessage"
+        );
+
 
     const name =
         input.value.trim();
 
 
-    answers.enteredName = name;
+    answers.enteredName =
+        name;
 
 
-    if (name.toLowerCase() === "kadri") {
+    /*
+        Case-insensitive Kadri check.
+    */
 
-        answers.identifiedCorrectly = true;
+    if (
+        name.toLowerCase() ===
+        "kadri"
+    ) {
+
+        answers.identifiedCorrectly =
+            true;
 
 
         message.textContent =
@@ -155,7 +309,9 @@ function checkName() {
 
         setTimeout(() => {
 
-            showPage("page-my-name");
+            showPage(
+                "page-my-name"
+            );
 
         }, 1200);
 
@@ -166,30 +322,45 @@ function checkName() {
             "Uhh... who are you..? I made this website for my best friend... idk you...";
 
     }
+
 }
 
 
 // ==========================================
 // PAGE 2
-// WHAT'S MY NAME?
+// MY NAME
 // ==========================================
 
 function checkMyName() {
 
     const input =
-        document.getElementById("myNameInput");
+        document.getElementById(
+            "myNameInput"
+        );
+
 
     const message =
-        document.getElementById("myNameMessage");
+        document.getElementById(
+            "myNameMessage"
+        );
+
 
     const name =
         input.value.trim();
 
 
-    answers.myNameAnswer = name;
+    answers.myNameAnswer =
+        name;
 
 
-    if (name.toLowerCase() === "rehaan") {
+    /*
+        Case-insensitive Rehaan check.
+    */
+
+    if (
+        name.toLowerCase() ===
+        "rehaan"
+    ) {
 
         message.textContent =
             "Oh it is you! Sorry for doubting you Honeybun!";
@@ -203,7 +374,9 @@ function checkMyName() {
                 "Well, I have 3 questions for you! And I want you to answer them for me! So let's begin?";
 
 
-            showPage("page-intro");
+            showPage(
+                "page-intro"
+            );
 
         }, 1500);
 
@@ -214,6 +387,7 @@ function checkMyName() {
             "Hmmmm... nope. That's not my name. Try again, Honeybun.";
 
     }
+
 }
 
 
@@ -223,7 +397,9 @@ function checkMyName() {
 
 function startQuestions() {
 
-    showPage("page-question-1");
+    showPage(
+        "page-question-1"
+    );
 
 }
 
@@ -234,7 +410,8 @@ function startQuestions() {
 
 function answerQuestion1(answer) {
 
-    answers.question1 = answer;
+    answers.question1 =
+        answer;
 
 
     const message =
@@ -258,7 +435,9 @@ function answerQuestion1(answer) {
 
     document.getElementById(
         "question1Continue"
-    ).style.display = "inline-block";
+    ).style.display =
+        "inline-block";
+
 }
 
 
@@ -268,14 +447,17 @@ function answerQuestion1(answer) {
 
 function goToQuestion2() {
 
-    showPage("page-question-2");
+    showPage(
+        "page-question-2"
+    );
 
 }
 
 
 function answerQuestion2(answer) {
 
-    answers.question2 = answer;
+    answers.question2 =
+        answer;
 
 
     const message =
@@ -290,7 +472,9 @@ function answerQuestion2(answer) {
 
     document.getElementById(
         "question2Continue"
-    ).style.display = "inline-block";
+    ).style.display =
+        "inline-block";
+
 }
 
 
@@ -300,16 +484,21 @@ function answerQuestion2(answer) {
 
 function goToQuestion3() {
 
-    showPage("page-question-3");
+    showPage(
+        "page-question-3"
+    );
 
 }
 
 
 function answerQuestion3(answer) {
 
-    answers.question3 = answer;
+    answers.question3 =
+        answer;
 
-    answers.completed = true;
+
+    answers.completed =
+        true;
 
 
     const message =
@@ -324,15 +513,17 @@ function answerQuestion3(answer) {
 
     document.getElementById(
         "finalOptions"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     saveAnswers();
+
 }
 
 
 // ==========================================
-// EVIL NO BUTTON
+// NO BUTTON
 // ==========================================
 
 function handleNo() {
@@ -341,14 +532,19 @@ function handleNo() {
 
 
     const noButton =
-        document.getElementById("noButton");
+        document.getElementById(
+            "noButton"
+        );
 
 
-    // ======================================
-    // FIRST 5 CLICKS
-    // ======================================
+    /*
+        FIRST 5 CLICKS:
+        TELEPORT
+    */
 
-    if (answers.noButtonClicks <= 5) {
+    if (
+        answers.noButtonClicks <= 5
+    ) {
 
         noButton.style.position =
             "fixed";
@@ -357,9 +553,14 @@ function handleNo() {
         const buttonWidth =
             noButton.offsetWidth;
 
+
         const buttonHeight =
             noButton.offsetHeight;
 
+
+        /*
+            Safe space around edges.
+        */
 
         const padding = 20;
 
@@ -378,18 +579,25 @@ function handleNo() {
 
         const randomX =
             Math.random() *
-            Math.max(maxX - padding, 0)
-            + padding;
+            Math.max(
+                maxX - padding,
+                0
+            ) +
+            padding;
 
 
         const randomY =
             Math.random() *
-            Math.max(maxY - padding, 0)
-            + padding;
+            Math.max(
+                maxY - padding,
+                0
+            ) +
+            padding;
 
 
         noButton.style.left =
             `${randomX}px`;
+
 
         noButton.style.top =
             `${randomY}px`;
@@ -397,9 +605,12 @@ function handleNo() {
     }
 
 
-    // ======================================
-    // SIXTH CLICK
-    // ======================================
+    /*
+        SIXTH CLICK:
+        PLAY SOUND
+        WAIT 1 SECOND
+        VANISH
+    */
 
     else if (
         answers.noButtonClicks === 6
@@ -424,8 +635,7 @@ function handleNo() {
 
 
         /*
-            WAIT EXACTLY ONE SECOND
-            BEFORE VANISHING
+            EXACTLY ONE SECOND.
         */
 
         setTimeout(() => {
@@ -442,11 +652,14 @@ function handleNo() {
         }, 1000);
 
 
-        answers.question3 = "No";
+        answers.question3 =
+            "No";
 
 
         saveAnswers();
+
     }
+
 }
 
 
@@ -456,15 +669,17 @@ function handleNo() {
 
 function saveAnswers() {
 
+    /*
+        For now this just puts the answers
+        into the browser console.
+
+        Google Sheets saving will be added
+        later.
+    */
+
     console.log(
-        "Answers:",
+        "KADRI'S ANSWERS:",
         answers
     );
-
-
-    /*
-        Google Sheets connection will
-        be added later.
-    */
 
 }
