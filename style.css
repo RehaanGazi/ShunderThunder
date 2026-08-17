@@ -6,13 +6,15 @@
     box-sizing: border-box;
 }
 
+
 html,
 body {
+
     margin: 0;
     padding: 0;
 
     width: 100%;
-    min-height: 100%;
+    height: 100%;
 
     overflow: hidden;
 
@@ -20,12 +22,16 @@ body {
         "Trebuchet MS",
         Arial,
         sans-serif;
+
 }
 
+
 body {
+
     background: #ffeeed;
 
     color: #4a4141;
+
 }
 
 
@@ -34,6 +40,7 @@ body {
    ========================================== */
 
 #app {
+
     position: relative;
 
     width: 100%;
@@ -42,65 +49,348 @@ body {
     overflow: hidden;
 
     background: #ffeeed;
+
 }
 
 
 /* ==========================================
-   PUSHEEN AT THE TOP
+   PAGES
    ========================================== */
 
-#topPusheen {
-    position: fixed;
+.page {
+
+    display: none;
+
+    position: relative;
+
+    width: 100%;
+    height: 100dvh;
+
+    padding:
+        40px
+        24px
+        70px;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+
+    text-align: center;
+
+    overflow: hidden;
+
+}
+
+
+.page.active {
+
+    display: flex;
+
+}
+
+
+/* ==========================================
+   CONTENT CARD
+   ========================================== */
+
+.content-card {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(92%, 380px);
+
+    padding:
+        28px
+        20px;
+
+    border-radius: 28px;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    box-shadow:
+        0 8px 30px
+        rgba(100, 70, 70, 0.08);
+
+    backdrop-filter:
+        blur(5px);
 
     /*
-        Start above the screen.
+        VERY IMPORTANT:
+
+        Allows Pusheen to stick out
+        above the card.
     */
 
-    top: -220px;
+    overflow: visible;
+
+}
+
+
+/* ==========================================
+   PUSHEEN PEEKING BEHIND CARD
+   ========================================== */
+
+.card-pusheen {
+
+    position: absolute;
+
+    /*
+        Attach Pusheen to the
+        top edge of the card.
+    */
+
+    top: -115px;
 
     left: 50%;
 
-    transform: translateX(-50%);
-
-    z-index: 10;
-
     /*
-        Animation will be added by JavaScript
-        after the page loads.
+        Start completely hidden.
     */
+
+    transform:
+        translateX(-50%)
+        translateY(100%);
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    user-select: none;
+
 }
 
-#topPusheenImage {
+
+/*
+    Pusheen slides upward.
+*/
+
+.card-pusheen.popped-up {
+
+    transform:
+        translateX(-50%)
+        translateY(35%);
+
+}
+
+
+/* Pusheen image */
+
+.card-pusheen img {
+
     display: block;
 
     width: 180px;
+
     height: auto;
 
-    user-select: none;
     pointer-events: none;
+
+    user-select: none;
+
 }
 
 
 /* ==========================================
-   TOP PUSHEEN ENTER ANIMATION
+   TEXT
    ========================================== */
 
-#topPusheen.entering {
-    animation:
-        pusheenDrop 2s
-        cubic-bezier(0.22, 1, 0.36, 1)
-        forwards;
+h1 {
+
+    margin:
+        0
+        0
+        20px;
+
+    font-size: 1.8rem;
+
+    line-height: 1.25;
+
+    color: #4a4141;
+
 }
 
-@keyframes pusheenDrop {
 
-    from {
-        top: -220px;
-    }
+p {
 
-    to {
-        top: 20px;
-    }
+    margin:
+        12px
+        auto;
+
+    max-width: 320px;
+
+    font-size: 1.05rem;
+
+    line-height: 1.5;
+
+}
+
+
+.question-number {
+
+    display: block;
+
+    margin-bottom: 12px;
+
+    font-size: 0.85rem;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    opacity: 0.55;
+
+}
+
+
+/* ==========================================
+   INPUT
+   ========================================== */
+
+input {
+
+    width: 100%;
+
+    padding:
+        14px
+        16px;
+
+    margin:
+        8px
+        0
+        14px;
+
+    border:
+        2px solid
+        #ead4d2;
+
+    border-radius: 16px;
+
+    background:
+        #fffafa;
+
+    color:
+        #4a4141;
+
+    font-size: 1rem;
+
+    outline: none;
+
+    text-align: center;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+
+}
+
+
+input:focus {
+
+    border-color:
+        #d9aaa8;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(217, 170, 168, 0.15);
+
+}
+
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+
+button {
+
+    min-height: 50px;
+
+    padding:
+        12px
+        22px;
+
+    margin: 6px;
+
+    border: none;
+
+    border-radius: 16px;
+
+    background:
+        #ffffff;
+
+    color:
+        #4a4141;
+
+    font-family: inherit;
+
+    font-size: 1rem;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 5px 15px
+        rgba(100, 70, 70, 0.10);
+
+    cursor: pointer;
+
+    touch-action:
+        manipulation;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+
+}
+
+
+button:active {
+
+    transform:
+        scale(0.95);
+
+    box-shadow:
+        0 2px 8px
+        rgba(100, 70, 70, 0.10);
+
+}
+
+
+/* ==========================================
+   QUESTION OPTIONS
+   ========================================== */
+
+.options {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+}
+
+
+.options button {
+
+    width: 100%;
+
+    max-width: 320px;
+
+}
+
+
+/* ==========================================
+   CONTINUE BUTTON
+   ========================================== */
+
+.continue-button {
+
+    margin-top: 18px;
 
 }
 
@@ -126,34 +416,36 @@ body {
 
     border-radius: 50%;
 
-    /*
-        The little wobble animation.
-    */
-
     animation:
-        kittenWobble 2.5s
+        kittenWobble
+        2.5s
         ease-in-out
         infinite;
+
 }
 
-
-/* First kitten */
 
 .kitten-one {
+
     left: 10px;
+
     bottom: 25px;
 
-    animation-delay: 0s;
+    animation-delay:
+        0s;
+
 }
 
 
-/* Second kitten */
-
 .kitten-two {
+
     right: 10px;
+
     bottom: 80px;
 
-    animation-delay: 1.2s;
+    animation-delay:
+        1.2s;
+
 }
 
 
@@ -164,296 +456,103 @@ body {
 @keyframes kittenWobble {
 
     0% {
-        transform: rotate(-4deg);
+
+        transform:
+            rotate(-4deg);
+
     }
 
     50% {
-        transform: rotate(4deg);
+
+        transform:
+            rotate(4deg);
+
     }
 
     100% {
-        transform: rotate(-4deg);
+
+        transform:
+            rotate(-4deg);
+
     }
 
 }
 
 
 /* ==========================================
-   PAGES
-   ========================================== */
-
-.page {
-
-    display: none;
-
-    position: relative;
-
-    width: 100%;
-    height: 100dvh;
-
-    padding: 180px 24px 100px;
-
-    justify-content: center;
-    align-items: center;
-
-    flex-direction: column;
-
-    text-align: center;
-
-    overflow: hidden;
-}
-
-
-.page.active {
-    display: flex;
-}
-
-
-/* ==========================================
-   CONTENT CARD
-   ========================================== */
-
-.content-card {
-
-    width: min(92%, 380px);
-
-    padding: 28px 20px;
-
-    border-radius: 28px;
-
-    background: rgba(255, 255, 255, 0.65);
-
-    box-shadow:
-        0 8px 30px rgba(100, 70, 70, 0.08);
-
-    backdrop-filter: blur(4px);
-}
-
-
-/* ==========================================
-   TEXT
-   ========================================== */
-
-h1 {
-
-    margin: 0 0 20px;
-
-    font-size: 1.8rem;
-
-    line-height: 1.25;
-
-    color: #4a4141;
-}
-
-
-p {
-
-    margin: 12px auto;
-
-    max-width: 320px;
-
-    font-size: 1.05rem;
-
-    line-height: 1.5;
-}
-
-
-.question-number {
-
-    display: block;
-
-    margin-bottom: 12px;
-
-    font-size: 0.85rem;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-
-    opacity: 0.55;
-}
-
-
-/* ==========================================
-   INPUT
-   ========================================== */
-
-input {
-
-    width: 100%;
-
-    padding: 14px 16px;
-
-    margin: 8px 0 14px;
-
-    border: 2px solid #ead4d2;
-
-    border-radius: 16px;
-
-    background: #fffafa;
-
-    color: #4a4141;
-
-    font-size: 1rem;
-
-    outline: none;
-
-    text-align: center;
-
-    transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
-}
-
-
-input:focus {
-
-    border-color: #d9aaa8;
-
-    box-shadow:
-        0 0 0 4px rgba(217, 170, 168, 0.15);
-}
-
-
-/* ==========================================
-   BUTTONS
-   ========================================== */
-
-button {
-
-    min-height: 50px;
-
-    padding: 12px 22px;
-
-    margin: 6px;
-
-    border: none;
-
-    border-radius: 16px;
-
-    background: #ffffff;
-
-    color: #4a4141;
-
-    font-family: inherit;
-
-    font-size: 1rem;
-
-    font-weight: bold;
-
-    box-shadow:
-        0 5px 15px rgba(100, 70, 70, 0.10);
-
-    cursor: pointer;
-
-    touch-action: manipulation;
-
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
-}
-
-
-button:active {
-
-    transform: scale(0.95);
-
-    box-shadow:
-        0 2px 8px rgba(100, 70, 70, 0.10);
-}
-
-
-/* ==========================================
-   QUESTION OPTIONS
-   ========================================== */
-
-.options {
-
-    width: 100%;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-}
-
-
-.options button {
-
-    width: 100%;
-
-    max-width: 320px;
-}
-
-
-/* ==========================================
-   CONTINUE BUTTON
-   ========================================== */
-
-.continue-button {
-
-    margin-top: 18px;
-
-}
-
-
-/* ==========================================
-   MOBILE SMALL-SCREEN SUPPORT
-   ========================================== */
-
-@media (max-height: 650px) {
-
-    #topPusheenImage {
-        width: 140px;
-    }
-
-    @keyframes pusheenDrop {
-
-        from {
-            top: -180px;
-        }
-
-        to {
-            top: 5px;
-        }
-
-    }
-
-    .page {
-        padding-top: 150px;
-        padding-bottom: 70px;
-    }
-
-    .content-card {
-        padding: 20px 16px;
-    }
-
-    h1 {
-        font-size: 1.55rem;
-    }
-
-}
-
-
-/* ==========================================
-   SMALL WIDTH PHONES
+   SMALL PHONES
    ========================================== */
 
 @media (max-width: 360px) {
 
     .page {
-        padding-left: 16px;
-        padding-right: 16px;
+
+        padding-left:
+            16px;
+
+        padding-right:
+            16px;
+
     }
 
-    #topPusheenImage {
-        width: 145px;
+
+    .card-pusheen img {
+
+        width:
+            150px;
+
     }
+
 
     .decorative-kitten {
-        width: 52px;
-        height: 52px;
+
+        width:
+            52px;
+
+        height:
+            52px;
+
+    }
+
+
+    h1 {
+
+        font-size:
+            1.55rem;
+
+    }
+
+}
+
+
+/* ==========================================
+   SHORT PHONES
+   ========================================== */
+
+@media (max-height: 650px) {
+
+    .content-card {
+
+        padding:
+            20px
+            16px;
+
+    }
+
+
+    h1 {
+
+        font-size:
+            1.55rem;
+
+    }
+
+
+    .card-pusheen img {
+
+        width:
+            145px;
+
     }
 
 }
